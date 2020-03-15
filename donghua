@@ -1,0 +1,61 @@
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
+#include <windows.h>
+#include <mmsystem.h>
+#include <time.h>
+#include <string>
+#include <cstring>
+#include <mmsystem.h>
+#pragma comment(lib, "WINMM.LIB")
+using namespace std;
+
+void recursur()
+{
+    HANDLE hout;
+    COORD coord;
+    coord.X = 0;
+    coord.Y = 0;
+    hout = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleCursorPosition(hout,coord);
+}
+
+int main()
+{
+    void recursur();    //光标移到左上角
+
+    clock_t startTime = 0, finishTime = 0; 
+    int i = 0, delaytime = 33; 
+    char fileName[22] = {"baascii\\ba(0).txt"}; //文件名
+    string str; 
+    ifstream File("baascii\\ba(0).txt");    //打开文件
+    cin.get();  //回车播放
+    system("cls"); 
+    startTime = clock();   
+    while(i <= 6570)
+    {
+
+        sprintf(fileName, "%s%d%s", "baascii\\ba(", i, ").txt");
+        finishTime = clock();  
+
+       
+        if((finishTime - startTime) >= delaytime)
+        {
+            i++;
+            File.open(fileName);    //打开文件
+            while(File.good())
+            {
+                getline(File, str); //读取文件
+                cout << str;    //输出文件
+            }
+            File.close();
+            startTime += delaytime;
+            cout << "Frame No." << i << "    Delay Time:" << delaytime;
+            recursur(); //光标归零
+        }
+    }
+    system("cls");
+    
+    cin.get();
+    return 0;
+}
